@@ -15,7 +15,7 @@ optional arguments:
   --out OUT             output dcd file name
 ```
 ```
-$ ./md_extract_frames.py --top data/2lj5.pdb                                --traj data/2lj5.dcd                                --frames 1 3 5 12                                --out out.dcd
+$ ./md_extract_frames.py --top data/2lj5.pdb --traj data/2lj5.dcd --frames 1 3 5 12 --out out.dcd
 
 dcdplugin) detected standard 32-bit DCD file of native endianness
 dcdplugin) CHARMM format DCD file (also NAMD 2.1 and later)
