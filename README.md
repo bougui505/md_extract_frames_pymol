@@ -1,3 +1,5 @@
+# md_extract_frames
+Extract list of frames from a MD trajectory file using PyMol library
 ```
 $ ./md_extract_frames.py -h
 
