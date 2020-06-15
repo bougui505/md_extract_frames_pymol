@@ -25,7 +25,6 @@ parser.add_argument('--out', type=str, help='output dcd file name',
 args = parser.parse_args()
 
 cmd.load(args.top, 'inp')
-print(args.frames)
 cmd.load_traj(args.traj, 'inp', state=1, stop=max(args.frames))
 for f in args.frames:
     cmd.create('out', selection='inp', source_state=f, target_state=-1)
