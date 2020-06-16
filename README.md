@@ -3,7 +3,7 @@ Extract list of frames from a MD trajectory file using PyMol library
 ## Install
 Clone the repository and then link `md_extract_frames.py` as `mdx` somewhere in your `$PATH` (e.g. `$HOME/bin`):
 ```bash
-ln -s md_extract_frames.py $HOME/bin/mdx
+ln -s /c7/home/bougui/source/md_extract_frames_pymol/md_extract_frames.py /c7/home/bougui/bin/mdx
 ```
 ## Usage
 ```
