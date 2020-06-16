@@ -27,6 +27,9 @@ parser.add_argument('--select', type=str, help='Select a subset of atoms',
                     required=False)
 args = parser.parse_args()
 
+# For memory efficiency:
+cmd.set('defer_builds_mode', 3)
+
 cmd.load(args.top, 'inp')
 if args.frames is not None:
     stop = max(args.frames)
