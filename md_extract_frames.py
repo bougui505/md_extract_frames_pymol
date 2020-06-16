@@ -20,7 +20,7 @@ parser.add_argument('--top', type=str, help='Topolgy file', required=True)
 parser.add_argument('--traj', type=str, help='Trajectory file', required=True)
 parser.add_argument('--frames', type=int, nargs='+',
                     help='Frame ids to extract. 1-based numbering.',
-                    required=True)
+                    required=False)
 parser.add_argument('--out', type=str, help='output dcd file name',
                     required=True)
 parser.add_argument('--select', type=str, help='Select a subset of atoms',
@@ -28,12 +28,20 @@ parser.add_argument('--select', type=str, help='Select a subset of atoms',
 args = parser.parse_args()
 
 cmd.load(args.top, 'inp')
-cmd.load_traj(args.traj, 'inp', state=1, stop=max(args.frames))
+if args.frames is not None:
+    stop = max(args.frames)
+else:
+    stop = -1
+cmd.load_traj(args.traj, 'inp', state=1, stop=stop)
 if args.select is None:
     selection = 'inp'
 else:
     selection = f'inp and ({args.select})'
-for f in args.frames:
+if args.frames is not None:
+    frames = args.frames
+else:
+    frames = range(1, cmd.count_states(selection) + 1)
+for f in frames:
     cmd.create('out', selection=selection, source_state=f, target_state=-1)
 # Save the trajectory
 cmd.save_traj(args.out, 'out')

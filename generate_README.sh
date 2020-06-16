@@ -25,12 +25,22 @@ ln -s \$PWD/md_extract_frames.py \$HOME/bin/mdx
 EOF
 
 runcmd "mdx -h"
+
+echo "Extract frames from a dcd trajectory file:"
 runcmd "mdx --top data/2lj5.pdb \
 --traj data/2lj5.dcd \
 --frames 1 3 5 12 \
 --out out.dcd"
+
+echo "Extract frames from a dcd trajectory file with a selection of a subset of atoms:"
 runcmd "mdx --select 'resi 42-60' \
 --top data/2lj5.pdb \
 --traj data/2lj5.dcd \
 --frames 1 3 5 12 \
 --out out2.dcd"
+
+echo "If no \`--frames\` argument is given all the frames are extracted with the given selection:"
+runcmd "mdx --select 'resi 42-60' \
+--top data/2lj5.pdb \
+--traj data/2lj5.dcd \
+--out out3.dcd" | headtail -
