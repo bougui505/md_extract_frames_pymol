@@ -5,6 +5,7 @@ Clone the repository and then link `md_extract_frames.py` as mdx somewhere in yo
 ```bash
 ln -s md_extract_frames.py $HOME/bin/mdx
 ```
+## Usage
 ```
 $ ./md_extract_frames.py -h
 

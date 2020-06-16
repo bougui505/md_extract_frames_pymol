@@ -21,6 +21,7 @@ Clone the repository and then link \`md_extract_frames.py\` as mdx somewhere in 
 \`\`\`bash
 ln -s md_extract_frames.py \$HOME/bin/mdx
 \`\`\`
+## Usage
 EOF
 
 runcmd "./md_extract_frames.py -h"
