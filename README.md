@@ -7,10 +7,9 @@ ln -s md_extract_frames.py $HOME/bin/mdx
 ```
 ## Usage
 ```
-$ ./md_extract_frames.py -h
+$ mdx -h
 
-usage: md_extract_frames.py [-h] --top TOP --traj TRAJ --frames FRAMES
-                            [FRAMES ...] --out OUT
+usage: mdx [-h] --top TOP --traj TRAJ --frames FRAMES [FRAMES ...] --out OUT
 
 Extract list of frames from a dcd file
 
@@ -23,7 +22,7 @@ optional arguments:
   --out OUT             output dcd file name
 ```
 ```
-$ ./md_extract_frames.py --top data/2lj5.pdb --traj data/2lj5.dcd --frames 1 3 5 12 --out out.dcd
+$ mdx --top data/2lj5.pdb --traj data/2lj5.dcd --frames 1 3 5 12 --out out.dcd
 
 dcdplugin) detected standard 32-bit DCD file of native endianness
 dcdplugin) CHARMM format DCD file (also NAMD 2.1 and later)

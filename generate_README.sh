@@ -24,8 +24,8 @@ ln -s md_extract_frames.py \$HOME/bin/mdx
 ## Usage
 EOF
 
-runcmd "./md_extract_frames.py -h"
-runcmd "./md_extract_frames.py --top data/2lj5.pdb \
+runcmd "mdx -h"
+runcmd "mdx --top data/2lj5.pdb \
 --traj data/2lj5.dcd \
 --frames 1 3 5 12 \
 --out out.dcd"
