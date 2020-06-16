@@ -1,4 +1,4 @@
-# md_extract_frames
+# md_extract_frames -- mdx command line tool to extract frames from MD trajectories
 Extract list of frames from a MD trajectory file using PyMol library
 ## Install
 Clone the repository and then link `md_extract_frames.py` as `mdx` somewhere in your `$PATH` (e.g. `$HOME/bin`):
