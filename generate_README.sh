@@ -29,3 +29,8 @@ runcmd "mdx --top data/2lj5.pdb \
 --traj data/2lj5.dcd \
 --frames 1 3 5 12 \
 --out out.dcd"
+runcmd "mdx --select 'resi 42-60' \
+--top data/2lj5.pdb \
+--traj data/2lj5.dcd \
+--frames 1 3 5 12 \
+--out out2.dcd"

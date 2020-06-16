@@ -7,6 +7,7 @@
 
 import sys
 import argparse
+import os
 from pathlib import Path
 home = str(Path.home())
 sys.path.append(f'{home}/source/pymol-psico')
@@ -22,10 +23,20 @@ parser.add_argument('--frames', type=int, nargs='+',
                     required=True)
 parser.add_argument('--out', type=str, help='output dcd file name',
                     required=True)
+parser.add_argument('--select', type=str, help='Select a subset of atoms',
+                    required=False)
 args = parser.parse_args()
 
 cmd.load(args.top, 'inp')
 cmd.load_traj(args.traj, 'inp', state=1, stop=max(args.frames))
+if args.select is None:
+    selection = 'inp'
+else:
+    selection = f'inp and ({args.select})'
 for f in args.frames:
-    cmd.create('out', selection='inp', source_state=f, target_state=-1)
+    cmd.create('out', selection=selection, source_state=f, target_state=-1)
+# Save the trajectory
 cmd.save_traj(args.out, 'out')
+# Save the topology
+topfilename = f'{os.path.splitext(args.out)[0]}.pdb'
+cmd.save(topfilename, selection=selection, state=1)
