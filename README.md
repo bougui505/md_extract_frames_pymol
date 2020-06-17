@@ -111,3 +111,11 @@ dcdplugin) CHARMM format DCD file (also NAMD 2.1 and later)
  ObjectMolecule: read set 301 into state 100...
  PyMOL not running, entering library mode (experimental)
 ```
+The command above will generate 3 dcd files:
+```
+$ ls -lh out_????.dcd
+
+-rw-r--r--. 1 bougui bis 1.5M Jun 17 11:34 out_0000.dcd
+-rw-r--r--. 1 bougui bis 1.5M Jun 17 11:34 out_0001.dcd
+-rw-r--r--. 1 bougui bis 1.5M Jun 17 11:34 out_0002.dcd
+```

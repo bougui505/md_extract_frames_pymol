@@ -50,3 +50,5 @@ runcmd "mdx --top data/2lj5.pdb \
 --traj data/2lj5.dcd \
 --out out.dcd \
 --lim 2000000" | headtail -
+echo "The command above will generate 3 dcd files:"
+runcmd "ls -lh out_????.dcd"
