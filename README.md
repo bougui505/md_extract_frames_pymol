@@ -24,8 +24,8 @@ optional arguments:
   --select SELECT       Select a subset of atoms
   --limit LIMIT         Limit the size of the trajectory file to this limit in
                         bytes. If the limit is reached the trajectory file is
-                        loaded by chunk accordingly. The default is 8000000000
-                        B (8.0 GB)
+                        loaded by chunk accordingly. The default is 4000000000
+                        B (4.0 GB)
 ```
 Extract frames from a dcd trajectory file:
 ```
@@ -115,7 +115,7 @@ The command above will generate 3 dcd files:
 ```
 $ ls -lh out_????.dcd
 
--rw-r--r--. 1 bougui bis 1.5M Jun 17 11:37 out_0000.dcd
--rw-r--r--. 1 bougui bis 1.5M Jun 17 11:37 out_0001.dcd
--rw-r--r--. 1 bougui bis 1.5M Jun 17 11:37 out_0002.dcd
+-rw-r--r--. 1 bougui bis 1.5M Jun 17 12:16 out_0000.dcd
+-rw-r--r--. 1 bougui bis 1.5M Jun 17 12:16 out_0001.dcd
+-rw-r--r--. 1 bougui bis 1.5M Jun 17 12:16 out_0002.dcd
 ```

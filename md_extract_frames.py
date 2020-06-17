@@ -27,7 +27,7 @@ parser.add_argument('--out', type=str, help='output dcd file name',
                     required=True)
 parser.add_argument('--select', type=str, help='Select a subset of atoms',
                     required=False)
-tfthreshold = 8000000000
+tfthreshold = 4000000000
 parser.add_argument('--limit', type=int,
                     help=f'Limit the size of the trajectory file to this limit in bytes. If the limit is reached the trajectory file is loaded by chunk accordingly. The default is {tfthreshold} B ({tfthreshold/1000000000} GB)', default=tfthreshold)
 args = parser.parse_args()
@@ -55,7 +55,7 @@ else:
     args.frames = range(1, nframes+1)
 for chunkid, chunk in enumerate(chunks):
     start, stop = min(chunk), max(chunk)
-    cmd.delete('all')
+    cmd.reinitialize()
     cmd.load(args.top, 'inp')
     cmd.load_traj(args.traj, 'inp', state=1, start=start, stop=stop)
     states = numpy.where(numpy.isin(chunk, args.frames))[0] + 1
