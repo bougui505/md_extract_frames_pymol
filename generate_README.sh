@@ -44,3 +44,9 @@ runcmd "mdx --select 'resi 42-60' \
 --top data/2lj5.pdb \
 --traj data/2lj5.dcd \
 --out out3.dcd" | headtail -
+
+echo "To limit memory usage for large trajectories you can split large trajectory files with the \`--lim\` option: "
+runcmd "mdx --top data/2lj5.pdb \
+--traj data/2lj5.dcd \
+--out out.dcd \
+--lim 2000000" | headtail -

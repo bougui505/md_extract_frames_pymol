@@ -53,7 +53,6 @@ if args.frames is not None:
 else:
     stop = -1
     args.frames = range(1, nframes+1)
-print(chunks)
 for chunkid, chunk in enumerate(chunks):
     start, stop = min(chunk), max(chunk)
     cmd.delete('all')
