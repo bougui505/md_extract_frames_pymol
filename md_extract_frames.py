@@ -62,8 +62,11 @@ for chunkid, chunk in enumerate(chunks):
     for s in states:
         cmd.create('out', selection=selection, source_state=s, target_state=-1)
     # Save the trajectory
-    trajfilename = f'{os.path.splitext(args.out)[0]}_{chunkid:04d}.dcd'
-    cmd.save_traj(trajfilename, 'out')
+    if len(chunks) > 1:
+        trajfilename = f'{os.path.splitext(args.out)[0]}_{chunkid:04d}.dcd'
+        cmd.save_traj(trajfilename, 'out')
+    else:
+        cmd.save_traj(args.out, 'out')
 # Save the topology
 topfilename = f'{os.path.splitext(args.out)[0]}.pdb'
 cmd.save(topfilename, selection=selection, state=1)

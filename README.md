@@ -115,7 +115,7 @@ The command above will generate 3 dcd files:
 ```
 $ ls -lh out_????.dcd
 
--rw-r--r--. 1 bougui bis 1.5M Jun 17 11:34 out_0000.dcd
--rw-r--r--. 1 bougui bis 1.5M Jun 17 11:34 out_0001.dcd
--rw-r--r--. 1 bougui bis 1.5M Jun 17 11:34 out_0002.dcd
+-rw-r--r--. 1 bougui bis 1.5M Jun 17 11:37 out_0000.dcd
+-rw-r--r--. 1 bougui bis 1.5M Jun 17 11:37 out_0001.dcd
+-rw-r--r--. 1 bougui bis 1.5M Jun 17 11:37 out_0002.dcd
 ```
