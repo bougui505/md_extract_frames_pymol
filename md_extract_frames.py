@@ -57,10 +57,14 @@ for chunkid, chunk in enumerate(chunks):
     start, stop = min(chunk), max(chunk)
     cmd.reinitialize()
     cmd.load(args.top, 'inp')
-    cmd.load_traj(args.traj, 'inp', state=1, start=start, stop=stop)
+    cmd.load_traj(args.traj, 'inp', state=1, start=start, stop=stop,
+                  selection=selection)
     states = numpy.where(numpy.isin(chunk, args.frames))[0] + 1
     for s in states:
+        sys.stdout.write(f'Getting state {s}/{max(states)}\r')
+        sys.stdout.flush()
         cmd.create('out', selection=selection, source_state=s, target_state=-1)
+    sys.stdout.write('\n')
     # Save the trajectory
     if len(chunks) > 1:
         trajfilename = f'{os.path.splitext(args.out)[0]}_{chunkid:04d}.dcd'
