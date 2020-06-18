@@ -9,7 +9,7 @@ func runcmd () {
     OUTPUT=$(eval $1)
     echo "\`\`\`"
     echo "$ $1\n"
-    echo "$OUTPUT"
+    echo "$OUTPUT" | grep -v "Getting state "
     echo "\`\`\`"
 }
 
