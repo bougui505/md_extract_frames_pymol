@@ -46,6 +46,7 @@ dcdplugin) CHARMM format DCD file (also NAMD 2.1 and later)
  ObjectMolecule: read set 11 into state 11...
  ObjectMolecule: read set 12 into state 12...
  PyMOL not running, entering library mode (experimental)
+Getting state 1/12Getting state 3/12Getting state 5/12Getting state 12/12
 ```
 Extract frames from a dcd trajectory file with a selection of a subset of atoms:
 ```
@@ -66,6 +67,7 @@ dcdplugin) CHARMM format DCD file (also NAMD 2.1 and later)
  ObjectMolecule: read set 11 into state 11...
  ObjectMolecule: read set 12 into state 12...
  PyMOL not running, entering library mode (experimental)
+Getting state 1/12Getting state 3/12Getting state 5/12Getting state 12/12
 ```
 If no `--frames` argument is given all the frames are extracted with the given selection:
 ```
@@ -109,13 +111,13 @@ dcdplugin) CHARMM format DCD file (also NAMD 2.1 and later)
  ObjectMolecule: read set 299 into state 98...
  ObjectMolecule: read set 300 into state 99...
  ObjectMolecule: read set 301 into state 100...
-
+ PyMOL not running, entering library mode (experimental)
 ```
 The command above will generate 3 dcd files:
 ```
 $ ls -lh out_????.dcd
 
--rw-r--r--. 1 bougui bis 1.5M Jun 18 11:35 out_0000.dcd
--rw-r--r--. 1 bougui bis 1.5M Jun 18 11:35 out_0001.dcd
--rw-r--r--. 1 bougui bis 1.5M Jun 18 11:35 out_0002.dcd
+-rw-r--r--. 1 bougui bis 1.5M Jun 18 11:59 out_0000.dcd
+-rw-r--r--. 1 bougui bis 1.5M Jun 18 11:59 out_0001.dcd
+-rw-r--r--. 1 bougui bis 1.5M Jun 18 11:59 out_0002.dcd
 ```
