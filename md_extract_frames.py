@@ -16,12 +16,16 @@ sys.path.append(f'{home}/source/pymol-psico')
 from pymol import cmd
 import psico.fullinit
 from psico.exporting import *
+import numpy
 
 parser = argparse.ArgumentParser(description='Extract list of frames from a dcd file')
 parser.add_argument('--top', type=str, help='Topolgy file', required=True)
 parser.add_argument('--traj', type=str, help='Trajectory file', required=True)
 parser.add_argument('--frames', type=int, nargs='+',
                     help='Frame ids to extract. 1-based numbering.',
+                    required=False)
+parser.add_argument('--fframes', type=str,
+                    help='Frame ids to extract. 1-based numbering given as a file.',
                     required=False)
 parser.add_argument('--out', type=str, help='output dcd file name',
                     required=True)
@@ -34,6 +38,11 @@ args = parser.parse_args()
 
 # For memory efficiency:
 cmd.set('defer_builds_mode', 3)
+
+if args.fframes is not None:
+    args.frames = list(numpy.genfromtxt(args.fframes, dtype=int))
+
+cmd.load(args.top, 'inp')
 
 # Check the size of the input trajectory file
 trajfilesize = os.path.getsize(args.traj)
