@@ -10,7 +10,8 @@ ln -s $PWD/md_extract_frames.py $HOME/bin/mdx
 $ mdx -h
 
 usage: mdx [-h] --top TOP --traj TRAJ [--frames FRAMES [FRAMES ...]]
-           [--fframes FFRAMES] --out OUT [--select SELECT] [--limit LIMIT]
+           [--fframes FFRAMES] --out OUT [--select SELECT] [--align ALIGN]
+           [--limit LIMIT]
 
 Extract list of frames from a dcd file
 
@@ -24,6 +25,7 @@ optional arguments:
                         file.
   --out OUT             output dcd or npy file name
   --select SELECT       Select a subset of atoms
+  --align ALIGN         Align on the given frame (starting from 1)
   --limit LIMIT         Limit the size of the trajectory file to this limit in
                         bytes. If the limit is reached the trajectory file is
                         loaded by chunk accordingly. The default is 4000000000
@@ -119,9 +121,9 @@ The command above will generate 3 dcd files:
 ```
 $ ls -lh out_????.dcd
 
--rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:32 out_0000.dcd
--rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:32 out_0001.dcd
--rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:32 out_0002.dcd
+-rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:53 out_0000.dcd
+-rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:53 out_0001.dcd
+-rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:53 out_0002.dcd
 ```
 The command can also generate numpy object files (`npy` files):
 ```
@@ -149,9 +151,9 @@ The command above will generate 3 `npy` files:
 ```
 $ ls -lh out_????.npy
 
--rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:32 out_0000.npy
--rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:32 out_0001.npy
--rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:32 out_0002.npy
+-rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:53 out_0000.npy
+-rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:53 out_0001.npy
+-rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:53 out_0002.npy
 ```
 ```
 $ mdx --top data/2lj5.pdb --traj data/2lj5.dcd --frames 1 3 5 12 --out out.npy
@@ -179,4 +181,41 @@ The numpy array format is as below:
 $ python3 -c "import numpy; data = numpy.load(\"out.npy\"); print(data.shape)"
 
 (4, 3693)
+```
+`mdx` can also align a trajectory, for example on the first frame `--align 1` option:
+```
+$ mdx --top data/2lj5.pdb --traj data/2lj5.dcd --out out_aligned.dcd --align 1
+
+dcdplugin) detected standard 32-bit DCD file of native endianness
+dcdplugin) CHARMM format DCD file (also NAMD 2.1 and later)
+ ObjectMolecule: read set 1 into state 1...
+ ObjectMolecule: read set 2 into state 2...
+ ObjectMolecule: read set 3 into state 3...
+ ObjectMolecule: read set 4 into state 4...
+ ObjectMolecule: read set 5 into state 5...
+[...]
+ ObjectMolecule: read set 294 into state 294...
+ ObjectMolecule: read set 295 into state 295...
+ ObjectMolecule: read set 296 into state 296...
+ ObjectMolecule: read set 297 into state 297...
+ ObjectMolecule: read set 298 into state 298...
+ ObjectMolecule: read set 299 into state 299...
+ ObjectMolecule: read set 300 into state 300...
+ ObjectMolecule: read set 301 into state 301...
+ PyMOL not running, entering library mode (experimental)
+```
+Along with the aligned trajectory file the command generate a file with the rmsd values:
+```
+$ cat out_aligned_rmsd.txt | head
+
+0.0000
+2.0813
+2.3214
+2.3935
+2.2429
+2.4077
+2.3462
+2.4194
+2.4418
+2.0869
 ```
