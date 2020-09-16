@@ -119,9 +119,9 @@ The command above will generate 3 dcd files:
 ```
 $ ls -lh out_????.dcd
 
--rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:23 out_0000.dcd
--rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:23 out_0001.dcd
--rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:23 out_0002.dcd
+-rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:32 out_0000.dcd
+-rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:32 out_0001.dcd
+-rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:32 out_0002.dcd
 ```
 The command can also generate numpy object files (`npy` files):
 ```
@@ -149,9 +149,9 @@ The command above will generate 3 `npy` files:
 ```
 $ ls -lh out_????.npy
 
--rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:23 out_0000.npy
--rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:23 out_0001.npy
--rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:23 out_0002.npy
+-rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:32 out_0000.npy
+-rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:32 out_0001.npy
+-rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:32 out_0002.npy
 ```
 ```
 $ mdx --top data/2lj5.pdb --traj data/2lj5.dcd --frames 1 3 5 12 --out out.npy
@@ -173,4 +173,10 @@ dcdplugin) CHARMM format DCD file (also NAMD 2.1 and later)
  ObjectMolecule: read set 12 into state 12...
  PyMOL not running, entering library mode (experimental)
 Getting state 1/12Getting state 3/12Getting state 5/12Getting state 12/12
+```
+The numpy array format is as below:
+```
+$ python3 -c "import numpy; data = numpy.load(\"out.npy\"); print(data.shape)"
+
+(4, 3693)
 ```
