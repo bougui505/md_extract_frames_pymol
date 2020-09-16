@@ -31,6 +31,7 @@ parser.add_argument('--out', type=str, help='output dcd or npy file name',
                     required=True)
 parser.add_argument('--select', type=str, help='Select a subset of atoms',
                     required=False)
+parser.add_argument('--align', type=int, help='Align on the given frame (starting from 1)', default=None)
 tfthreshold = 4000000000
 parser.add_argument('--limit', type=int,
                     help=f'Limit the size of the trajectory file to this limit in bytes. If the limit is reached the trajectory file is loaded by chunk accordingly. The default is {tfthreshold} B ({tfthreshold/1000000000} GB)', default=tfthreshold)
@@ -68,6 +69,12 @@ for chunkid, chunk in enumerate(chunks):
     cmd.load(args.top, 'inp')
     cmd.load_traj(args.traj, 'inp', state=1, start=start, stop=stop,
                   selection=selection)
+    if args.align is not None:
+        if len(chunks) == 1:
+            rmsds = cmd.intra_fit(selection, args.align)
+            rmsds[rmsds == -1.] = 0.
+            outrmsdfile = f"{os.path.splitext(args.out)[0]}_rmsd.txt"
+            numpy.savetxt(outrmsdfile, rmsds, fmt="%.4f")
     states = numpy.where(numpy.isin(chunk, args.frames))[0] + 1
     nstates = cmd.count_states('inp')
     if len(states) == nstates:

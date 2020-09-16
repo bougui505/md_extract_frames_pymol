@@ -67,3 +67,11 @@ runcmd "mdx --top data/2lj5.pdb \
 --out out.npy" | headtail -
 echo "The numpy array format is as below:"
 runcmd 'python3 -c "import numpy; data = numpy.load(\"out.npy\"); print(data.shape)"'
+
+echo "\`mdx\` can also align a trajectory, for example on the first frame \`--align 1\` option:"
+runcmd "mdx --top data/2lj5.pdb \
+--traj data/2lj5.dcd \
+--out out_aligned.dcd \
+--align 1" | headtail -
+echo "Along with the aligned trajectory file the command generate a file with the rmsd values:"
+runcmd "cat out_aligned_rmsd.txt | head"
