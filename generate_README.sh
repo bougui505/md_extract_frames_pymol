@@ -52,3 +52,11 @@ runcmd "mdx --top data/2lj5.pdb \
 --lim 2000000" | headtail -
 echo "The command above will generate 3 dcd files:"
 runcmd "ls -lh out_????.dcd"
+
+echo "The command can also generate numpy object files (\`npy\` files):"
+runcmd "mdx --top data/2lj5.pdb \
+--traj data/2lj5.dcd \
+--out out.npy \
+--lim 2000000" | headtail -
+echo "The command above will generate 3 \`npy\` files:"
+runcmd "ls -lh out_????.npy"

@@ -27,7 +27,7 @@ parser.add_argument('--frames', type=int, nargs='+',
 parser.add_argument('--fframes', type=str,
                     help='Frame ids to extract. 1-based numbering given as a file.',
                     required=False)
-parser.add_argument('--out', type=str, help='output dcd file name',
+parser.add_argument('--out', type=str, help='output dcd or npy file name',
                     required=True)
 parser.add_argument('--select', type=str, help='Select a subset of atoms',
                     required=False)
@@ -79,11 +79,24 @@ for chunkid, chunk in enumerate(chunks):
             cmd.create('out', selection=selection, source_state=s, target_state=-1)
         sys.stdout.write('\n')
     # Save the trajectory
+    extension = os.path.splitext(args.out)[1]
     if len(chunks) > 1:
-        trajfilename = f'{os.path.splitext(args.out)[0]}_{chunkid:04d}.dcd'
-        cmd.save_traj(trajfilename, 'out')
+        trajfilename = f'{os.path.splitext(args.out)[0]}_{chunkid:04d}{extension}'
+        if extension == '.dcd':
+            cmd.save_traj(trajfilename, 'out')
+        else:
+            coords_out = cmd.get_coords('out', state=0)
+            nstates = cmd.count_states('out')
+            coords_out.reshape((nstates, -1))
+            numpy.save(trajfilename, coords_out)
     else:
-        cmd.save_traj(args.out, 'out')
+        if extension == '.dcd':
+            cmd.save_traj(args.out, 'out')
+        else:
+            coords_out = cmd.get_coords('out', state=0)
+            nstates = cmd.count_states('out')
+            coords_out.reshape((nstates, -1))
+            numpy.save(args.out, coords_out)
 # Save the topology
 topfilename = f'{os.path.splitext(args.out)[0]}.pdb'
 cmd.save(topfilename, selection=selection, state=1)

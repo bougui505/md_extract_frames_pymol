@@ -9,8 +9,8 @@ ln -s $PWD/md_extract_frames.py $HOME/bin/mdx
 ```
 $ mdx -h
 
-usage: mdx [-h] --top TOP --traj TRAJ [--frames FRAMES [FRAMES ...]] --out OUT
-           [--select SELECT] [--limit LIMIT]
+usage: mdx [-h] --top TOP --traj TRAJ [--frames FRAMES [FRAMES ...]]
+           [--fframes FFRAMES] --out OUT [--select SELECT] [--limit LIMIT]
 
 Extract list of frames from a dcd file
 
@@ -20,7 +20,9 @@ optional arguments:
   --traj TRAJ           Trajectory file
   --frames FRAMES [FRAMES ...]
                         Frame ids to extract. 1-based numbering.
-  --out OUT             output dcd file name
+  --fframes FFRAMES     Frame ids to extract. 1-based numbering given as a
+                        file.
+  --out OUT             output dcd or npy file name
   --select SELECT       Select a subset of atoms
   --limit LIMIT         Limit the size of the trajectory file to this limit in
                         bytes. If the limit is reached the trajectory file is
@@ -117,7 +119,37 @@ The command above will generate 3 dcd files:
 ```
 $ ls -lh out_????.dcd
 
--rw-r--r--. 1 bougui bis 1.5M Jun 18 11:59 out_0000.dcd
--rw-r--r--. 1 bougui bis 1.5M Jun 18 11:59 out_0001.dcd
--rw-r--r--. 1 bougui bis 1.5M Jun 18 11:59 out_0002.dcd
+-rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:20 out_0000.dcd
+-rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:20 out_0001.dcd
+-rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:20 out_0002.dcd
+```
+The command can also generate numpy object files (`npy` files):
+```
+$ mdx --top data/2lj5.pdb --traj data/2lj5.dcd --out out.npy --lim 2000000
+
+dcdplugin) detected standard 32-bit DCD file of native endianness
+dcdplugin) CHARMM format DCD file (also NAMD 2.1 and later)
+ ObjectMolecule: read set 1 into state 1...
+ ObjectMolecule: read set 2 into state 2...
+ ObjectMolecule: read set 3 into state 3...
+ ObjectMolecule: read set 4 into state 4...
+ ObjectMolecule: read set 5 into state 5...
+[...]
+ ObjectMolecule: read set 294 into state 93...
+ ObjectMolecule: read set 295 into state 94...
+ ObjectMolecule: read set 296 into state 95...
+ ObjectMolecule: read set 297 into state 96...
+ ObjectMolecule: read set 298 into state 97...
+ ObjectMolecule: read set 299 into state 98...
+ ObjectMolecule: read set 300 into state 99...
+ ObjectMolecule: read set 301 into state 100...
+ PyMOL not running, entering library mode (experimental)
+```
+The command above will generate 3 `npy` files:
+```
+$ ls -lh out_????.npy
+
+-rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:20 out_0000.npy
+-rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:20 out_0001.npy
+-rw-r--r-- 1 bougui bougui 1.5M Sep 16 15:20 out_0002.npy
 ```
