@@ -87,7 +87,7 @@ for chunkid, chunk in enumerate(chunks):
         else:
             coords_out = cmd.get_coords('out', state=0)
             nstates = cmd.count_states('out')
-            coords_out.reshape((nstates, -1))
+            coords_out = coords_out.reshape((nstates, -1))
             numpy.save(trajfilename, coords_out)
     else:
         if extension == '.dcd':
@@ -95,7 +95,7 @@ for chunkid, chunk in enumerate(chunks):
         else:
             coords_out = cmd.get_coords('out', state=0)
             nstates = cmd.count_states('out')
-            coords_out.reshape((nstates, -1))
+            coords_out = coords_out.reshape((nstates, -1))
             numpy.save(args.out, coords_out)
 # Save the topology
 topfilename = f'{os.path.splitext(args.out)[0]}.pdb'

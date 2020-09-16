@@ -60,3 +60,10 @@ runcmd "mdx --top data/2lj5.pdb \
 --lim 2000000" | headtail -
 echo "The command above will generate 3 \`npy\` files:"
 runcmd "ls -lh out_????.npy"
+
+runcmd "mdx --top data/2lj5.pdb \
+--traj data/2lj5.dcd \
+--frames 1 3 5 12 \
+--out out.npy" | headtail -
+echo "The numpy array format is as below:"
+runcmd 'python3 -c "import numpy; data = numpy.load(\"out.npy\"); print(data.shape)"'
