@@ -10,13 +10,9 @@ import argparse
 import os
 import numpy
 import dcd_reader
-from pathlib import Path
-home = str(Path.home())
-sys.path.append(f'{home}/source/pymol-psico')
 from pymol import cmd
 import psico.fullinit
 from psico.exporting import *
-import numpy
 
 parser = argparse.ArgumentParser(description='Extract list of frames from a dcd file')
 parser.add_argument('--top', type=str, help='Topolgy file', required=True)
