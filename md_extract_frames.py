@@ -14,23 +14,38 @@ from pymol import cmd
 import psico.fullinit
 from psico.exporting import *
 
-parser = argparse.ArgumentParser(description='Extract list of frames from a dcd file')
+parser = argparse.ArgumentParser(
+    description='Extract list of frames from a dcd file')
 parser.add_argument('--top', type=str, help='Topolgy file', required=True)
 parser.add_argument('--traj', type=str, help='Trajectory file', required=True)
-parser.add_argument('--frames', type=int, nargs='+',
+parser.add_argument('--frames',
+                    type=int,
+                    nargs='+',
                     help='Frame ids to extract. 1-based numbering.',
                     required=False)
-parser.add_argument('--fframes', type=str,
-                    help='Frame ids to extract. 1-based numbering given as a file.',
-                    required=False)
-parser.add_argument('--out', type=str, help='output dcd or npy file name',
+parser.add_argument(
+    '--fframes',
+    type=str,
+    help='Frame ids to extract. 1-based numbering given as a file.',
+    required=False)
+parser.add_argument('--out',
+                    type=str,
+                    help='output dcd or npy file name',
                     required=True)
-parser.add_argument('--select', type=str, help='Select a subset of atoms',
+parser.add_argument('--select',
+                    type=str,
+                    help='Select a subset of atoms',
                     required=False)
-parser.add_argument('--align', type=int, help='Align on the given frame (starting from 1)', default=None)
-tfthreshold = 4000000000
-parser.add_argument('--limit', type=int,
-                    help=f'Limit the size of the trajectory file to this limit in bytes. If the limit is reached the trajectory file is loaded by chunk accordingly. The default is {tfthreshold} B ({tfthreshold/1000000000} GB)', default=tfthreshold)
+parser.add_argument('--align',
+                    type=int,
+                    help='Align on the given frame (starting from 1)',
+                    default=None)
+parser.add_argument(
+    '--limit',
+    type=int,
+    help=
+    'Limit the size of the trajectory file to this limit in bytes. If the limit is reached the trajectory file is loaded by chunk accordingly. The default is no threshold'
+)
 args = parser.parse_args()
 
 # For memory efficiency:
@@ -46,7 +61,10 @@ cmd.load(args.top, 'inp')
 # Check the size of the input trajectory file
 trajfilesize = os.path.getsize(args.traj)
 tfthreshold = args.limit
-nchunks = int(numpy.ceil(trajfilesize / tfthreshold))
+if tfthreshold is None:
+    nchunks = 1
+else:
+    nchunks = int(numpy.ceil(trajfilesize / tfthreshold))
 nframes = dcd_reader.get_nframes(args.traj)
 chunks = numpy.array_split(numpy.arange(1, nframes + 1), nchunks)
 
@@ -57,15 +75,19 @@ else:
 
 if args.frames is not None:
     stop = max(args.frames)
-    chunks = [c[c<=stop] for c in chunks if min(c)<= stop]
+    chunks = [c[c <= stop] for c in chunks if min(c) <= stop]
 else:
     stop = -1
-    args.frames = range(1, nframes+1)
+    args.frames = range(1, nframes + 1)
 for chunkid, chunk in enumerate(chunks):
     start, stop = min(chunk), max(chunk)
     cmd.reinitialize()
     cmd.load(args.top, 'inp')
-    cmd.load_traj(args.traj, 'inp', state=1, start=start, stop=stop,
+    cmd.load_traj(args.traj,
+                  'inp',
+                  state=1,
+                  start=start,
+                  stop=stop,
                   selection=selection)
     if args.align is not None:
         if len(chunks) == 1:
@@ -81,7 +103,10 @@ for chunkid, chunk in enumerate(chunks):
         for s in states:
             sys.stdout.write(f'Getting state {s}/{max(states)}\r')
             sys.stdout.flush()
-            cmd.create('out', selection=selection, source_state=s, target_state=-1)
+            cmd.create('out',
+                       selection=selection,
+                       source_state=s,
+                       target_state=-1)
         sys.stdout.write('\n')
     # Save the trajectory
     extension = os.path.splitext(args.out)[1]
