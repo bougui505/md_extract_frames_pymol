@@ -41,6 +41,10 @@ parser.add_argument('--align',
                     help='Align on the given frame (starting from 1)',
                     default=None)
 parser.add_argument(
+    '--align_sel',
+    help='Align on the given selection. If not given use --select as selection'
+)
+parser.add_argument(
     '--limit',
     type=int,
     help=
@@ -91,7 +95,11 @@ for chunkid, chunk in enumerate(chunks):
                   selection=selection)
     if args.align is not None:
         if len(chunks) == 1:
-            rmsds = cmd.intra_fit(selection, args.align)
+            if args.align_sel is not None:
+                align_sel = args.align_sel
+            else:
+                align_sel = selection
+            rmsds = cmd.intra_fit(align_sel, args.align)
             rmsds[rmsds == -1.] = 0.
             outrmsdfile = f"{os.path.splitext(args.out)[0]}_rmsd.txt"
             numpy.savetxt(outrmsdfile, rmsds, fmt="%.4f")
