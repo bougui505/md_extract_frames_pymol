@@ -14,36 +14,19 @@ from pymol import cmd
 import psico.fullinit
 from psico.exporting import *
 
-parser = argparse.ArgumentParser(
-    description='Extract list of frames from a dcd file')
+parser = argparse.ArgumentParser(description='Extract list of frames from a dcd file')
 parser.add_argument('--top', type=str, help='Topolgy file', required=True)
 parser.add_argument('--traj', type=str, help='Trajectory file', required=True)
-parser.add_argument('--frames',
-                    type=int,
-                    nargs='+',
-                    help='Frame ids to extract. 1-based numbering.',
-                    required=False)
-parser.add_argument(
-    '--fframes',
-    type=str,
-    help='Frame ids to extract. 1-based numbering given as a file.',
-    required=False)
-parser.add_argument('--out',
+parser.add_argument('--frames', type=int, nargs='+', help='Frame ids to extract. 1-based numbering.', required=False)
+parser.add_argument('--fframes',
                     type=str,
-                    help='output dcd or npy file name',
-                    required=True)
-parser.add_argument('--select',
-                    type=str,
-                    help='Select a subset of atoms',
+                    help='Frame ids to extract. 1-based numbering given as a file.',
                     required=False)
-parser.add_argument('--align',
-                    type=int,
-                    help='Align on the given frame (starting from 1)',
-                    default=None)
-parser.add_argument(
-    '--align_sel',
-    help='Align on the given selection. If not given use --select as selection'
-)
+parser.add_argument('--stride', type=int, help='Stride to load the trajectory', default=1)
+parser.add_argument('--out', type=str, help='output dcd or npy file name', required=True)
+parser.add_argument('--select', type=str, help='Select a subset of atoms', required=False)
+parser.add_argument('--align', type=int, help='Align on the given frame (starting from 1)', default=None)
+parser.add_argument('--align_sel', help='Align on the given selection. If not given use --select as selection')
 parser.add_argument(
     '--limit',
     type=int,
@@ -87,12 +70,7 @@ for chunkid, chunk in enumerate(chunks):
     start, stop = min(chunk), max(chunk)
     cmd.reinitialize()
     cmd.load(args.top, 'inp')
-    cmd.load_traj(args.traj,
-                  'inp',
-                  state=1,
-                  start=start,
-                  stop=stop,
-                  selection=selection)
+    cmd.load_traj(args.traj, 'inp', state=1, start=start, stop=stop, selection=selection, interval=args.stride)
     if args.align is not None:
         if len(chunks) == 1:
             if args.align_sel is not None:
@@ -111,10 +89,7 @@ for chunkid, chunk in enumerate(chunks):
         for s in states:
             sys.stdout.write(f'Getting state {s}/{max(states)}\r')
             sys.stdout.flush()
-            cmd.create('out',
-                       selection=selection,
-                       source_state=s,
-                       target_state=-1)
+            cmd.create('out', selection=selection, source_state=s, target_state=-1)
         sys.stdout.write('\n')
     # Save the trajectory
     extension = os.path.splitext(args.out)[1]
